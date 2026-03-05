@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prominence Bank - Multi-Step Form Demo</title>
+    <style>
+        /* --- A) Design & D) Mobile Responsiveness --- */
+        /* This CSS is designed to match a typical bank website aesthetic. */
+        :root {
+            --primary-color: #005a8b; /* A professional blue */
+            --secondary-color: #f4f4f4;
+            --accent-color: #ffc107; /* A contrasting gold/yellow */
+            --text-color: #333;
+            --light-text: #fff;
+            --border-color: #ddd;
+            --error-color: #d9534f;
+            --success-color: #5cb85c;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #eef2f5;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: var(--light-text);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* --- Progress Indicator --- */
+        .progress-bar-container {
+            width: 100%;
+            background-color: var(--secondary-color);
+            border-radius: 5px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 25px;
+            background-color: var(--primary-color);
+            border-radius: 5px;
+            transition: width 0.4s ease;
+            color: var(--light-text);
+            line-height: 25px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* --- Form Steps --- */
+        .form-step {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(0, 90, 139, 0.3);
+        }
+
+        .form-group .error-message {
+            color: var(--error-color);
+            font-size: 14px;
+            display: none;
+        }
+
+        /* --- Navigation Buttons --- */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-prev {
+            background-color: #6c757d;
+            color: var(--light-text);
+        }
+
+        .btn-next, .btn-submit {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+        }
+        
+        .btn-submit {
+            background-color: var(--success-color);
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* --- Save & Continue --- */
+        .save-continue {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .save-continue a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .save-continue a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+            .navigation-buttons {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Account Application</h1>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar">Step 1 of 3</div>
+        </div>
+
+        <!-- The Form -->
+        <form id="multiStepForm">
+            <!-- Step 1: Personal Information -->
+            <div class="form-step active" id="step1">
+                <h2>Step 1: Personal Information</h2>
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                    <span class="error-message">Please enter your full name.</span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                    <span class="error-message">Please enter a valid email.</span>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                    <span class="error-message">Please enter your phone number.</span>
+                </div>
+            </div>
+
+            <!-- Step 2: Account Details -->
+            <div class="form-step" id="step2">
+                <h2>Step 2: Account Details</h2>
+                <div class="form-group">
+                    <label for="accountType">Account Type *</label>
+                    <select id="accountType" name="accountType" required>
+                        <option value="">--Please choose an option--</option>
+                        <option value="checking">Checking</option>
+                        <option value="savings">Savings</option>
+                        <option value="business">Business</option>
+                    </select>
+                    <span class="error-message">Please select an account type.</span>
+                </div>
+                <div class="form-group">
+                    <label for="initialDeposit">Initial Deposit Amount</label>
+                    <input type="number" id="initialDeposit" name="initialDeposit">
+                </div>
+            </div>
+
+            <!-- Step 3: Review & Submit -->
+            <div class="form-step" id="step3">
+                <h2>Step 3: Review & Submit</h2>
+                <p>Please review your information before submitting. All fields marked with an asterisk (*) are required.</p>
+                <p><strong>Note:</strong> This is a demo. In the final version, a summary of the user's data would appear here.</p>
+                <div class="form-group">
+                     <label for="agreement">
+                        <input type="checkbox" id="agreement" name="agreement" required>
+                        I agree to the terms and conditions. *
+                    </label>
+                     <span class="error-message">You must agree to the terms.</span>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="navigation-buttons">
+                <button type="button" class="btn btn-prev" id="prevBtn" onclick="changeStep(-1)" style="visibility: hidden;">Back</button>
+                <button type="button" class="btn btn-next" id="nextBtn" onclick="changeStep(1)">Next</button>
+                <button type="submit" class="btn btn-submit" id="submitBtn" style="display: none;">Submit Application</button>
+            </div>
+
+            <!-- Save & Continue Link (Placeholder) -->
+            <div class="save-continue">
+                <a href="#" onclick="alert('This would trigger the Save & Continue logic.'); return false;">Save & Continue Later</a>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        // --- B) Keep the exact same fields and logic (Front-end validation part) ---
+        const form = document.getElementById('multiStepForm');
+        const progressBar = document.getElementById('progressBar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        let currentStep = 1;
+        const totalSteps = document.querySelectorAll('.form-step').length;
+
+        function showStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            // Show current step
+            document.getElementById(`step${step}`).classList.add('active');
+
+            // Update progress bar
+            const progressPercent = (step / totalSteps) * 100;
+            progressBar.style.width = progressPercent + '%';
+            progressBar.textContent = `Step ${step} of ${totalSteps}`;
+
+            // Update navigation buttons
+            prevBtn.style.visibility = (step === 1) ? 'hidden' : 'visible';
+            
+            if (step === totalSteps) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'block';
+            } else {
+                nextBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        function validateCurrentStep() {
+            const currentStepElement = document.getElementById(`step${currentStep}`);
+            const inputs = currentStepElement.querySelectorAll('[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                const errorMessage = input.nextElementSibling;
+                if (!input.value.trim() || (input.type === 'checkbox' && !input.checked)) {
+                    errorMessage.style.display = 'block';
+                    isValid = false;
+                } else {
+                    errorMessage.style.display = 'none';
+                }
+            });
+            return isValid;
+        }
+
+        function changeStep(direction) {
+            if (direction === 1 && !validateCurrentStep()) {
+                return; // Don't proceed if validation fails
+            }
+
+            currentStep += direction;
+            if (currentStep > totalSteps) {
+                currentStep = totalSteps;
+            }
+            if (currentStep < 1) {
+                currentStep = 1;
+            }
+            showStep(currentStep);
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission for demo
+            if (validateCurrentStep()) {
+                alert('Form submitted successfully! (This is a demo. In a real scenario, the data would be sent to the server.)');
+                // In the real project, this is where the form data would be submitted
+                // to the WordPress backend via AJAX or a standard form post.
+            }
+        });
+
+        // Initialize the first step
+        showStep(currentStep);
+    </script>
+
+</body>
+</html>
